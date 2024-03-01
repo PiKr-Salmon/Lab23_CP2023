@@ -1,5 +1,6 @@
 #include<iostream>
 #include<cmath>
+#define PI 3.14159265
 using namespace std;
 
 class ComplexNumber{				
@@ -24,11 +25,73 @@ ComplexNumber ComplexNumber::operator+(const ComplexNumber &c){
 	return ComplexNumber(real+c.real,imag+c.imag);
 }
 
+ComplexNumber operator+(double i,const ComplexNumber &c){
+	return ComplexNumber(i+c.real,c.imag);
+}
+
 ComplexNumber ComplexNumber::operator-(const ComplexNumber &c){
 	return ComplexNumber(real-c.real,imag-c.imag);
 }
 
-//Write your code here
+ComplexNumber operator-(double i,const ComplexNumber &c){
+	return ComplexNumber(i-c.real,(0)-c.imag);
+}
+
+ComplexNumber ComplexNumber::operator*(const ComplexNumber &c){
+	return ComplexNumber((real*c.real)-(imag*c.imag),(real*c.imag)+(imag*c.real));
+}
+
+ComplexNumber operator*(double i,const ComplexNumber &c){
+	return ComplexNumber((i*c.real),(i*c.imag));
+}
+
+ComplexNumber ComplexNumber::operator/(const ComplexNumber &c){
+	return ComplexNumber(((real*c.real)+(imag*c.imag)) / (pow(c.real,2)+pow(c.imag,2)),((imag*c.real)-(real*c.imag)) / (pow(c.real,2)+pow(c.imag,2)) );
+}	
+
+ComplexNumber operator/(double i,const ComplexNumber &c){
+	return ComplexNumber((((i)*c.real)+((0)*c.imag)) / (pow(c.real,2)+pow(c.imag,2)),(((0)*c.real)-((i)*c.imag)) / (pow(c.real,2)+pow(c.imag,2)));
+}
+
+bool ComplexNumber::operator==(const ComplexNumber &c){
+	if( real == c.real && imag == c.imag){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+bool operator==(const ComplexNumber &i,const ComplexNumber &c){
+	if(i.real == c.real && i.imag == c.imag){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+double ComplexNumber::abs(){	
+    return sqrt(pow(real,2) + pow(imag,2));
+}
+
+double ComplexNumber::angle(){
+	float ca;
+    ca = atan2(imag,real) * 180/PI;
+
+	return ca;
+}
+
+ostream& operator<<(ostream &os,const ComplexNumber &c){
+	if(c.imag > 0){ 
+		if(c.real == 0)  os << c.imag << "i";
+		else os << c.real << "+" << c.imag << "i";
+	}else if(c.imag == 0) os << c.real;
+	else if(c.imag < 0){
+		if(c.real == 0) os << c.imag << "i";
+		else os << c.real << c.imag << "i";
+	}
+
+	return os;
+}
 
 int main(){
 	ComplexNumber a(1.5,2),b(3.2,-2.5),c(-1,1.2);	
